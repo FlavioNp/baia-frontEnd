@@ -1,25 +1,44 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import api from './services/api';
 import './App.css';
 
+import logo from './assets/baia.png';
+
 function App() {
+  const [email, setEmail] = useState('');
+
+  async function handleSubmit(event) {
+    event.preventDefault();  
+
+    const response = await api.post('/sessions', { email });
+
+    console.log(response); 
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+    <div className="container">
+      <img src={logo} alt="logo do baia"/>
+
+      <div className="content">
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          A plataforma mais <strong>ultra</strong>, mega power, <strong>top das galáxias</strong> para alugueis na temporada.
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="email">E-mail *</label>
+          <input 
+          type="email" 
+          id="email" 
+          placeholder="Passa o e-mail :P" 
+          value={email }
+          onChange={event => setEmail(event.target.value)}
+          />
+
+          <button className="btn" type="submit">Entre</button>
+        </form>
+      </div>
     </div>
+
   );
 }
 
